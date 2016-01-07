@@ -7,6 +7,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/modules/")
 #Use ccache if available
 
 find_program(CCACHE_FOUND ccache)
+
 if(CCACHE_FOUND)
     message(STATUS "Using ccache")
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
@@ -18,9 +19,10 @@ endif(CCACHE_FOUND)
 find_package(fuse REQUIRED)
 find_package(CURL REQUIRED)
 
-set(GHOST_LIBRARIES
-	${FUSE_LIBRARIES}
-	${CURL_LIBRARIES}
+set(
+    GHOST_LIBRARIES
+    ${FUSE_LIBRARIES}
+    ${CURL_LIBRARIES}
 )
 
 #Define compilation flags
@@ -36,31 +38,50 @@ set(CMAKE_INSTALL_PATH /usr/bin)
 #Add source codes and generate executables
 
 include_directories(
-	${FUSE_INCLUDE_DIRS}
-	${CURL_INCLUDE_DIRS}
-	${CMAKE_SOURCE_DIR}
+    ${FUSE_INCLUDE_DIRS}
+    ${CURL_INCLUDE_DIRS}
+    ${CMAKE_SOURCE_DIR}
 )
 
 add_executable(ghostfs
-	ghostfs.cc
+    main.cc
+
+    ghost_file.cc
+    block_info.cc
+    cache.cc
+    ghost_fs.cc
+    utils.cc
+
+    protocol/base_protocol.cc
+    protocol/http_protocol.cc
+
+    ghost_file.h
+    block_info.h
+    cache.h
+    ghost_fs.h
+    utils.h
+
+    protocol/base_protocol.h
+    protocol/http_protocol.h
 )
 
-target_link_libraries(ghostfs 
-	${GHOST_LIBRARIES}
+target_link_libraries(
+    ghostfs
+    ${GHOST_LIBRARIES}
 )
 
 install(
-TARGETS ghostfs 
-DESTINATION "${CMAKE_INSTALL_PATH}" 
-COMPONENT application
+    TARGETS ghostfs
+    DESTINATION "${CMAKE_INSTALL_PATH}"
+    COMPONENT application
 )
 
 install(
-FILES ${CMAKE_CURRENT_SOURCE_DIR}/gmount
-DESTINATION "${CMAKE_INSTALL_PATH}"
-PERMISSIONS
-	OWNER_READ OWNER_WRITE OWNER_EXECUTE
-	GROUP_READ GROUP_WRITE GROUP_EXECUTE
-	WORLD_READ WORLD_WRITE WORLD_EXECUTE
+    FILES ${CMAKE_CURRENT_SOURCE_DIR}/gmount
+    DESTINATION "${CMAKE_INSTALL_PATH}"
+    PERMISSIONS
+        OWNER_READ OWNER_WRITE OWNER_EXECUTE
+        GROUP_READ GROUP_WRITE GROUP_EXECUTE
+        WORLD_READ WORLD_WRITE WORLD_EXECUTE
 )
 
