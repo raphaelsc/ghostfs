@@ -24,7 +24,7 @@ fi
 if [[ ! -e $mount_point ]]; then
 	#Create mount point if it doesn't exist
 	mkdir -p $mount_point
-	./ghost $mount_point
+	./ghostfs $mount_point
 fi
 
 
