@@ -1,7 +1,7 @@
 Ghost File System or simply GhostFS
 
-File system created to allow the user to access random content of a
-remote file which is sitting behind a HTTP webserver.
+File system created to allow an user to access content of a remote file,
+i.e. which is exposed by a webserver, as if it were local.
 
 FUSE and CURL are used in this project, so you will need both packages
 installed when getting your hands dirty with this project.
