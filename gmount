@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#Author: Péricles Lopes Machado (eu[at]gogo40.com)
+
+#Example: ./gmount test http://raphaelsc.github.io/pictures/andromeda_galaxy.jpg test.jpg
 
 if [[  $# == 0 ]]; then
 	echo "Usage: $0 <mount_point> [<url> <file_name>]?"
@@ -36,7 +39,4 @@ if [[ $url && $file_name ]]; then
 	touch $path
 
 	setfattr -n url -v $url $path
-
-	echo "REMOTE URL: $url"
-	echo "PATH TO MOUNT: $path"
 fi

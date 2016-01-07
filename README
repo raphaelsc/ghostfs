@@ -7,12 +7,17 @@ FUSE and CURL are used in this project, so you will need both packages
 installed when getting your hands dirty with this project.
 
 How to use it?
+
 1) Mount the file system:
 	./ghostfs /path/to/mount/point
 2) Create an empty file:
 	touch /path/to/mount/point/<file>
 3) Set attribute url of the empty file using extended attribute:
 	setfattr -n url -v http://<address> /path/to/mount/point/<file>
+
+Or use the mount utility script
+
+1) ./gmount /path/to/mount/point http://<address> <file>
 
 And that's all. Now you can access content of /path/to/mount/point/<file> as
 if it were local.
