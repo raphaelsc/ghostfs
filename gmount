@@ -1,0 +1,42 @@
+#!/bin/bash
+
+
+if [[  $# == 0 ]]; then
+	echo "Usage: $0 <mount_point> [<url> <file_name>]?"
+	exit 1
+fi
+
+mount_point=$1
+
+if [[ $# == 3 ]]; then
+	url=$2
+	file_name=$3
+elif [[ $# != 1 ]]; then
+	echo "wrong number of arguments"
+	exit 1
+fi
+
+
+#Verify if directory $1 exist
+if [[ ! -e $mount_point ]]; then
+	#Create mount point if it doesn't exist
+	mkdir -p $mount_point
+	./ghost $mount_point
+fi
+
+
+if [[ $url && $file_name ]]; then
+	path=$mount_point/$file_name
+
+	if [[ -e $path ]]; then
+        	echo "$path already exists"
+        	exit 1
+	fi
+
+	touch $path
+
+	setfattr -n $url -v $url $path
+
+	echo "REMOTE URL: $url"
+	echo "PATH TO MOUNT: $path"
+fi
