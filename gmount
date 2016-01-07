@@ -35,7 +35,7 @@ if [[ $url && $file_name ]]; then
 
 	touch $path
 
-	setfattr -n $url -v $url $path
+	setfattr -n url -v $url $path
 
 	echo "REMOTE URL: $url"
 	echo "PATH TO MOUNT: $path"
