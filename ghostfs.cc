@@ -5,7 +5,7 @@
   This program can be distributed under the terms of the GNU GPL.
   See the file COPYING.
 
-  g++ --std=c++11 -Wall `pkg-config fuse --cflags --libs` ghost.cc -o ghost
+  g++ --std=c++11 -Wall `pkg-config fuse --cflags --libs` ghost.cc -o ghost -lcurl
 */
 
 #define FUSE_USE_VERSION 26
