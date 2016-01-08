@@ -19,13 +19,7 @@
 #endif
 
 #define BLOCK_SIZE (1024*1024)
-#define CACHE_SIZE 1024
-
-struct data_info {
-    void *data;
-    size_t offset;
-    size_t size;
-};
+#define CACHE_SIZE 1024 // Maximum number of cache entries
 
 struct ghost_fs {
 private:

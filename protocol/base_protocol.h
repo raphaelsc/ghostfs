@@ -21,6 +21,14 @@ struct base_protocol {
         const std::unordered_map<std::string, std::string>& attributes, char* data) = 0;
 };
 
+// write_callback() may be called multiple times to fullfil a request,
+// so data_info is needed to keep track of the offset in data.
+struct data_info {
+    void *data;
+    size_t offset;
+    size_t size;
+};
+
 size_t write_callback(void *content_read, size_t size, size_t nmemb, void *p);
 
 struct base_protocol* get_handler(const char* path);
