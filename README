@@ -23,6 +23,9 @@ How to use it?
 4) Set attribute url of the empty file using extended attribute:
     setfattr -n url -v http://<address> /path/to/mount/point/<file>
 
+For debugging, GhostFS may be mounted as follow:
+    ./ghostfs -d /path/to/mount/point
+
 Steps 2, 3 and 4 can be done in a single step with:
     ./gmount /path/to/mount/point http://<address> <file>
 
