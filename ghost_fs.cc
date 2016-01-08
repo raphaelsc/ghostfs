@@ -6,8 +6,11 @@
   See the file COPYING.
 */
 
-#include <sys/xattr.h>
+#define FUSE_USE_VERSION 26
+
+#include <fuse.h>
 #include <thread>
+#include <sys/xattr.h>
 
 #include "ghost_fs.h"
 
@@ -144,8 +147,8 @@ static void do_prefetch(cache& c, block_info& info, size_t blk_id, std::string f
 
     if (!handler) return;
 
-    handler->get_block_from_remote_file(file_url.data(), blk_id,
-                                            c.block_size(), info._blk->_data);
+    handler->get_block(file_url.data(), blk_id,
+                       c.block_size(), info._blk->_data);
 
     c.unlock_block(info._blk);
 
@@ -236,7 +239,7 @@ static int ghost_read(const char *path, char *buf, size_t size, off_t offset,
             printf("\tnot cached\n");
             blk = c.allocate_block(&info);
             c._mtx.unlock();
-            handler->get_block_from_remote_file(file_url, blk_id, block_size, blk->_data);
+            handler->get_block(file_url, blk_id, block_size, blk->_data);
         } else {
             printf("\tcached\n");
             blk = info._blk;
@@ -391,6 +394,9 @@ void register_handlers() {
 }
 
 int ghost_main(int argc, char *argv[]) {
+
+    set_ghost_oper();
+    add_static_files();
     register_handlers();
 
     return fuse_main(argc, argv, &ghost_oper, (void*) &ghost);

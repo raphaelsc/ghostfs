@@ -16,7 +16,7 @@ struct http_protocol : public base_protocol {
 
     virtual bool is_url_valid(const char* url);
     virtual uint64_t get_content_length_for_url(const char *url);
-    virtual void get_block_from_remote_file(const char *url, size_t block_id,
+    virtual void get_block(const char *url, size_t block_id,
                                              size_t block_size, char* data);
 };
 

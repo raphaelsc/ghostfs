@@ -21,9 +21,7 @@ private:
     size_t _blocks_available;
     size_t _block_size;
 
-    size_t blocks_used() {
-        return _blocks_used;
-    }
+    size_t blocks_used();
 public:
     std::mutex _mtx;
 

@@ -8,7 +8,6 @@
 
 #include "block_info.h"
 
-
 void block_info::reset() {
     _present = false;
     _blk = nullptr;
@@ -18,3 +17,7 @@ void block_info::set_block(block *blk) {
     _present = true;
     _blk = blk;
 }
+
+block::block(block_info *info, char *data)
+    : _info(info)
+    , _data(data) {}

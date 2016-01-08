@@ -23,9 +23,7 @@ struct block {
     char* _data;
     bi::list_member_hook<> _lru_link;
 
-    block(block_info* info, char* data)
-        : _info(info)
-        , _data(data) {}
+    block(block_info* info, char* data);
 
     block() = delete;
 };

@@ -13,8 +13,7 @@
 #include "base_protocol.h"
 #include "ghost_fs.h"
 
-size_t write_callback(void *content_read, size_t size, size_t nmemb, void *p)
-{
+size_t write_callback(void *content_read, size_t size, size_t nmemb, void *p) {
     size_t actual_size = size * nmemb;
     struct data_info* info = (struct data_info*) p;
     printf("\twrite_callback: actual_size: %ld\n", actual_size);
@@ -30,8 +29,7 @@ size_t write_callback(void *content_read, size_t size, size_t nmemb, void *p)
 
 std::unordered_map<std::string, base_protocol*> handlers_;
 
-void register_handler(struct base_protocol *handler)
-{
+void register_handler(struct base_protocol *handler) {
     handlers_[handler->name()] = handler;
 }
 
@@ -43,8 +41,7 @@ std::string get_protocol(const std::string& path) {
     return tokens[0];
 }
 
-base_protocol *get_handler(const char *path)
-{
+base_protocol *get_handler(const char *path) {
     auto it = handlers_.find(get_protocol(path));
 
     if (it == handlers_.end()) return 0;

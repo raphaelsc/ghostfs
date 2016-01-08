@@ -10,14 +10,13 @@
 #define BASE_PROTOCOL_H
 
 #include <stdint.h>
-#include <sys/types.h>
 
 struct base_protocol {
     virtual const char* name() = 0;
 
     virtual bool is_url_valid(const char* url) = 0;
     virtual uint64_t get_content_length_for_url(const char *url) = 0;
-    virtual void get_block_from_remote_file(const char *url, size_t block_id,
+    virtual void get_block(const char *url, size_t block_id,
                                              size_t block_size, char* data) = 0;
 };
 

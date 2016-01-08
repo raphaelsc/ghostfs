@@ -8,6 +8,10 @@
 
 #include "cache.h"
 
+size_t cache::blocks_used() {
+    return _blocks_used;
+}
+
 cache::cache(size_t blocks, size_t block_size)
     : _blocks_available(blocks)
     , _block_size(block_size) {}

@@ -8,14 +8,9 @@
   g++ --std=c++11 -Wall `pkg-config fuse --cflags --libs` ghost.cc -o ghost -lcurl
 */
 
-#include "cache.h"
-#include "ghost_file.h"
 #include "ghost_fs.h"
 
 int main(int argc, char *argv[])
 {
-    set_ghost_oper();
-    add_static_files();
-
     return ghost_main(argc, argv);
 }

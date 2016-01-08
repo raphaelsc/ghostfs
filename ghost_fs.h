@@ -9,10 +9,6 @@
 #ifndef GHOST_FS_H
 #define GHOST_FS_H
 
-#define FUSE_USE_VERSION 26
-
-#include <fuse.h>
-
 #include "ghost_file.h"
 #include "cache.h"
 

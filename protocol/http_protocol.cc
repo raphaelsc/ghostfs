@@ -11,7 +11,7 @@
 #include "http_protocol.h"
 #include "ghost_fs.h"
 
-void http_protocol::get_block_from_remote_file(const char *url, size_t block_id,
+void http_protocol::get_block(const char *url, size_t block_id,
                                        size_t block_size, char* data) {
     char buffer[128];
     struct data_info info;
@@ -45,8 +45,7 @@ void http_protocol::get_block_from_remote_file(const char *url, size_t block_id,
     curl_easy_cleanup(curl);
 }
 
-uint64_t http_protocol::get_content_length_for_url(const char *url)
-{
+uint64_t http_protocol::get_content_length_for_url(const char *url) {
     CURL *curl = curl_easy_init();
     if(!curl) {
         printf("Failure\n");
@@ -68,7 +67,6 @@ uint64_t http_protocol::get_content_length_for_url(const char *url)
 }
 
 // TODO: check if web server exists and accepts range request
-bool http_protocol::is_url_valid(const char* url)
-{
+bool http_protocol::is_url_valid(const char* url) {
     return true;
 }
