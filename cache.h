@@ -24,6 +24,8 @@ private:
     size_t blocks_used();
 public:
     std::mutex _mtx;
+    size_t _hits = 0;
+    size_t _misses = 0;
 
     cache(size_t blocks, size_t block_size);
 
@@ -37,6 +39,8 @@ public:
     void unlock_block(block* blk);
 
     size_t block_size();
+
+    float get_hit_ratio();
 
     friend struct ghost_fs;
 };

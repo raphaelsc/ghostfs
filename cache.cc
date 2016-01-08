@@ -72,3 +72,7 @@ void cache::unlock_block(block *blk) {
 size_t cache::block_size() {
     return _block_size;
 }
+
+float cache::get_hit_ratio() {
+    return (float(_hits) / (_hits + _misses)) * 100.0;
+}

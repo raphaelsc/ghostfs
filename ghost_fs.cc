@@ -241,12 +241,14 @@ static int ghost_read(const char *path, char *buf, size_t size, off_t offset,
         c._mtx.lock();
 
         if (!info._present) {
-            log("\tnot cached\n");
+            c._misses++;
+            log("\tnot cached, hit ratio=%6.2f%%\n", c.get_hit_ratio());
             blk = c.allocate_block(&info);
             c._mtx.unlock();
             handler->get_block(file_url, blk_id, block_size, file.attributes(), blk->_data);
         } else {
-            log("\tcached\n");
+            c._hits++;
+            log("\tcached, hit ratio=%6.2f%%\n", c.get_hit_ratio());
             blk = info._blk;
             c.lock_block(blk);
             c._mtx.unlock();
