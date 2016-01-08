@@ -35,9 +35,9 @@ public:
 
     void add_attribute(const char* attribute, const char* value);
 
-    void remove_attribute(const char* file_path);
+    void remove_attribute(const char* attribute);
 
-    bool attribute_exists(const char* file_path) const;
+    bool attribute_exists(const char* attribute) const;
 
     const std::unordered_map<std::string, std::string>& attributes() const;
 

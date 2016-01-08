@@ -41,12 +41,12 @@ void ghost_file::add_attribute(const char *attribute, const char *value) {
     _attributes.emplace(std::string(attribute), std::string(value));
 }
 
-void ghost_file::remove_attribute(const char *file_path) {
-    _attributes.erase(std::string(file_path));
+void ghost_file::remove_attribute(const char *attribute) {
+    _attributes.erase(std::string(attribute));
 }
 
-bool ghost_file::attribute_exists(const char *file_path) const {
-    auto it = _attributes.find(std::string(file_path));
+bool ghost_file::attribute_exists(const char *attribute) const {
+    auto it = _attributes.find(std::string(attribute));
     return (it == _attributes.end()) ? false : true;
 }
 
