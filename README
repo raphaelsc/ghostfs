@@ -35,6 +35,9 @@ so step 2 and 3 would be replaced by:
 Simpler, no?
 
 NOTE: We also plan to add support to other protocols, such as FTP and SCP.
+By the way, a protocol plugin system was recently added to GhostFS (kudos
+to Pericles), so adding support to new protocols may be relatively easy.
+Take a look at /protocol for a better understanding of how it works.
 
 For further information, feel free to reach me at:
 	raphael.scarv@gmail.com
