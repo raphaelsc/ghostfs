@@ -15,31 +15,34 @@ installed when getting your hands dirty with this project.
 How to use it?
 
 1) Build the project:
-        cmake .; make
+    cmake .; make
 2) Mount the file system:
-	./ghostfs /path/to/mount/point
+    ./ghostfs /path/to/mount/point
 3) Create an empty file:
-	touch /path/to/mount/point/<file>
+    touch /path/to/mount/point/<file>
 4) Set attribute url of the empty file using extended attribute:
-	setfattr -n url -v http://<address> /path/to/mount/point/<file>
+    setfattr -n url -v http://<address> /path/to/mount/point/<file>
 
-Or use the mount utility script
-
-1) ./gmount /path/to/mount/point http://<address> <file>
+Steps 2, 3 and 4 can be done in a single step with:
+    ./gmount /path/to/mount/point http://<address> <file>
 
 And that's all. Now you can randomly access content of the remote file.
 
-For example, let's do that with a remote image file:
-	touch /path/to/mount/point/andromeda_galaxy.jpg
-	setfattr -n url -v \
-		http://raphaelsc.github.io/pictures/andromeda_galaxy.jpg \
-		/path/to/mount/point/andromeda_galaxy.jpg
+For example, let's do that with a remote video file:
 
-Now you access the image using an image viewer of your choice!
+1) Mount the file system:
+    mkdir ./my_ghost_fs; ./ghostfs ./my_ghost_fs
+2) Create a file in ./my_ghost_fs pointing to the remote video:
+    touch ./my_ghost_fs/video.mp4
+    setfattr -n url -v \
+    http://bollywoodmp4.net/videos/2016/saala-khadoos/hq/saala-khadoos-bollywoodmp4-net.mp4 \
+    ./my_ghost_fs/video.mp4
+
+Now you can watch the video by opening ./my_ghost_fs/video.mp4
 
 NOTE: In the future, we may replace extended attribute with symbolic link,
 so step 2 and 3 would be replaced by:
-	ln -s /path/to/mount/point/<file> http://<address>
+    ln -s /path/to/mount/point/<file> http://<address>
 Simpler, no?
 
 NOTE: We also plan to add support to other protocols, such as FTP and SCP.
@@ -48,6 +51,6 @@ Pericles), so adding support to new protocols may be relatively easy.
 Take a look at /protocol for a better understanding of how it works.
 
 For further information, feel free to reach me at:
-	raphael.scarv@gmail.com
+    raphael.scarv@gmail.com
 
 Thanks.
