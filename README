@@ -41,7 +41,7 @@ For example, let's do that with a remote video file:
 Now you can watch the video by opening ./my_ghost_fs/video.mp4
 
 NOTE: In the future, we may replace extended attribute with symbolic link,
-so step 2 and 3 would be replaced by:
+so step 3 and 4 (of 'How to use it?') would be replaced by:
     ln -s /path/to/mount/point/<file> http://<address>
 Simpler, no?
 
