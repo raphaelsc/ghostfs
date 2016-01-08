@@ -1,0 +1,23 @@
+- Rename gmount to ghostfs_mount and add ghostfs_create. So ghostfs_mount will
+only be responsible for mounting, and ghostfs_create only for creating files
+with a given url and additional parameters such as attributes.
+- Use symlink for file creation instead of using touch + setfattr, the latter
+being used to set url.
+- Add support to ftp protocol.
+- Add support to scp protocol.
+- Add support to sqlite protocol.
+    - sqlite protocol will be about querying a sqlite database, and the return
+    value will be available by reading the file.
+    - attribute query will be used to store the query
+    - we may need additional attributes such as password to access database
+    content.
+    - when file size is needed, we will have to perform the query, cache it
+    and then return the size of the query result as the file size.
+- Add support to directories.
+- GhostFS isn't persistent, so let's add a config file that will contain
+the file system structure. This config file will be passed to ghostfs_mount
+which in turn will reconstruct the structure based on the information stored.
+    Example of config file:
+    { .name=/file, .url=example.com/file, .attributes = { {key, value} } }
+    { .name=/dir/file2, .url=example.com/file2, .attributes = {} }
+
