@@ -22,7 +22,6 @@ How to use it?
 	touch /path/to/mount/point/<file>
 4) Set attribute url of the empty file using extended attribute:
 	setfattr -n url -v http://<address> /path/to/mount/point/<file>
-5) Have fun :-)
 
 Or use the mount utility script
 
