@@ -7,7 +7,6 @@
 */
 
 #include <string>
-#include <unordered_map>
 
 #include "utils.h"
 #include "base_protocol.h"
