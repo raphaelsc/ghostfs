@@ -20,14 +20,14 @@ void http_protocol::get_block(const char *url, size_t block_id,
 
     curl = curl_easy_init();
     if(!curl) {
-        log("Failure\n");
+        log("Curl initialization failed when about to get block %ld from %s\n", block_id, url);
     }
 
     curl_easy_setopt(curl, CURLOPT_URL, url);
 
     size_t offset = block_id * block_size;
     snprintf(buffer, 128, "%ld-%ld", offset, offset+block_size-1);
-    log("\trange: %s\n", buffer);
+    log("\trange request to %s: %s\n", url, buffer);
 
     info.data = data;
     info.offset = 0;
@@ -38,18 +38,18 @@ void http_protocol::get_block(const char *url, size_t block_id,
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, (void *)&info);
 
     /* Perform the request */
-    int res = curl_easy_perform(curl);
+    CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
-        log("Request failed\n");
+        log("Request to %s failed, reason: %s\n", url, curl_easy_strerror(res));
     }
-    log("\tremote_read finished!\n");
+    log("\tget_block finished for block %ld of %s!\n", block_id, url);
     curl_easy_cleanup(curl);
 }
 
 uint64_t http_protocol::get_content_length_for_url(const char *url) {
     CURL *curl = curl_easy_init();
     if(!curl) {
-        log("Failure\n");
+        log("Curl initialization failed when about to get length of %s\n", url);
         return -1;
     }
 
@@ -57,9 +57,9 @@ uint64_t http_protocol::get_content_length_for_url(const char *url) {
     curl_easy_setopt(curl, CURLOPT_HEADER, 0);
     curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
 
-    int res = curl_easy_perform(curl);
+    CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
-        log("Request failed\n");
+        log("Request to %s failed, reason: %s\n", url, curl_easy_strerror(res));
     }
     double content_length = 0;
     curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &content_length);
