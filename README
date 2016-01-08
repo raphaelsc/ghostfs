@@ -1,32 +1,41 @@
 Ghost File System or simply GhostFS
 
-File system created to allow an user to access content of a remote file,
-i.e. which is exposed by a webserver, as if it were local.
+File system created to allow an user to randomly access content of a remote
+file as if the file were stored locally.
+
+Only HTTP and HTTPS protocols are supported at the moment, but the goal is to
+add support to other protocols, such as FTP, SCP and even SQL.
+
+GhostFS takes advantange of Linux filesystem interface to allow users to use
+their existing tools on files stored in a GhostFS mount point.
 
 FUSE and CURL are used in this project, so you will need both packages
 installed when getting your hands dirty with this project.
 
 How to use it?
 
-1) Mount the file system:
+1) Build the project:
+        cmake .; make
+2) Mount the file system:
 	./ghostfs /path/to/mount/point
-2) Create an empty file:
+3) Create an empty file:
 	touch /path/to/mount/point/<file>
-3) Set attribute url of the empty file using extended attribute:
+4) Set attribute url of the empty file using extended attribute:
 	setfattr -n url -v http://<address> /path/to/mount/point/<file>
+5) Have fun :-)
 
 Or use the mount utility script
 
 1) ./gmount /path/to/mount/point http://<address> <file>
 
-And that's all. Now you can access content of /path/to/mount/point/<file> as
-if it were local.
+And that's all. Now you can randomly access content of the remote file.
 
 For example, let's do that with a remote image file:
 	touch /path/to/mount/point/andromeda_galaxy.jpg
 	setfattr -n url -v \
 		http://raphaelsc.github.io/pictures/andromeda_galaxy.jpg \
 		/path/to/mount/point/andromeda_galaxy.jpg
+
 Now you access the image using an image viewer of your choice!
 
 NOTE: In the future, we may replace extended attribute with symbolic link,
@@ -35,8 +44,8 @@ so step 2 and 3 would be replaced by:
 Simpler, no?
 
 NOTE: We also plan to add support to other protocols, such as FTP and SCP.
-By the way, a protocol plugin system was recently added to GhostFS (kudos
-to Pericles), so adding support to new protocols may be relatively easy.
+By the way, a protocol plugin system was recently added to GhostFS (kudos to
+Pericles), so adding support to new protocols may be relatively easy.
 Take a look at /protocol for a better understanding of how it works.
 
 For further information, feel free to reach me at:
