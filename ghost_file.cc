@@ -7,6 +7,7 @@
 */
 
 #include "ghost_file.h"
+#include "utils.h"
 
 ghost_file::ghost_file(const char *data)
     : _data(data)
@@ -30,7 +31,7 @@ size_t ghost_file::length() const {
 
 void ghost_file::update_length(size_t new_length, size_t block_size) {
     _length = new_length;
-    printf("File length: %ld\n", new_length);
+    log("File length: %ld\n", new_length);
 
     auto blocks = new_length / block_size + 1;
     _file_blocks.resize(blocks);
