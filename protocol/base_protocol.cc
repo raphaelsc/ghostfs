@@ -16,10 +16,10 @@
 size_t write_callback(void *content_read, size_t size, size_t nmemb, void *p) {
     size_t actual_size = size * nmemb;
     struct data_info* info = (struct data_info*) p;
-    printf("\twrite_callback: actual_size: %ld\n", actual_size);
+    log("\twrite_callback: actual_size: %ld\n", actual_size);
 
     if (info->offset + actual_size > info->size) {
-        printf("\twrite_callback: write would go beyond the end of the buffer\n");
+        log("\twrite_callback: write would go beyond the end of the buffer\n");
         return 0;
     }
     memcpy((char *) info->data + info->offset, content_read, actual_size);

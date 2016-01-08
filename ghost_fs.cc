@@ -13,6 +13,7 @@
 #include <sys/xattr.h>
 
 #include "ghost_fs.h"
+#include "utils.h"
 
 #include "protocol/http_protocol.h"
 
@@ -106,7 +107,7 @@ static int ghost_open(const char *path, struct fuse_file_info *fi)
 {
     struct ghost_fs* ghost = get_ghost_fs();
 
-    printf("fi=%p, path=%s\n", fi, path);
+    log("fi=%p, path=%s\n", fi, path);
 
     if (!ghost->file_exists(path)) {
         return -ENOENT;
@@ -124,7 +125,7 @@ static int ghost_create(const char *path, mode_t mode, struct fuse_file_info *fi
     struct ghost_fs* ghost = get_ghost_fs();
     bool exclusive = fi->flags & O_EXCL; // CHECK if it's correct
 
-    //printf("CREATE: path=%s, create=%d, rdonly=%d, exclusive=%d\n", path, create, read_only, exclusive);
+    //log("CREATE: path=%s, create=%d, rdonly=%d, exclusive=%d\n", path, create, read_only, exclusive);
 #if 0 /* Otherwise, command touch will not work */
     if ((fi->flags & 3) != O_RDONLY) {
         return -EACCES;
@@ -153,7 +154,7 @@ static void do_prefetch(cache& c, block_info& info, size_t blk_id, std::string f
     c.unlock_block(info._blk);
 
     info._mtx.unlock();
-    printf("Prefetched block %ld\n", blk_id);
+    log("Prefetched block %ld\n", blk_id);
 }
 
 static void try_prefetch(cache& c, block_info& info, size_t blk_id, const char* file_url) {
@@ -167,7 +168,7 @@ static void try_prefetch(cache& c, block_info& info, size_t blk_id, const char* 
         info._mtx.unlock();
         return;
     }
-    printf("Prefetching block %ld\n", blk_id);
+    log("Prefetching block %ld\n", blk_id);
     block* blk = c.allocate_block(&info);
     c._mtx.unlock();
     assert(info._blk == blk);
@@ -208,7 +209,7 @@ static int ghost_read(const char *path, char *buf, size_t size, off_t offset,
         return 0;
     }
 
-    printf("\nURL: %s\n", file_url);
+    log("\nURL: %s\n", file_url);
 
     base_protocol* handler = get_handler(file_url);
 
@@ -227,7 +228,7 @@ static int ghost_read(const char *path, char *buf, size_t size, off_t offset,
         size_t remaining = end - offset;
         size_t to_read = std::min(remaining, block_size - blk_offset);
 
-        printf("blk_id=%ld, blk_offset=%ld, to_read=%ld\n", blk_id, blk_offset, to_read);
+        log("blk_id=%ld, blk_offset=%ld, to_read=%ld\n", blk_id, blk_offset, to_read);
 
         block_info& info = file_blocks[blk_id];
         block* blk = nullptr;
@@ -236,12 +237,12 @@ static int ghost_read(const char *path, char *buf, size_t size, off_t offset,
         c._mtx.lock();
 
         if (!info._present) {
-            printf("\tnot cached\n");
+            log("\tnot cached\n");
             blk = c.allocate_block(&info);
             c._mtx.unlock();
             handler->get_block(file_url, blk_id, block_size, blk->_data);
         } else {
-            printf("\tcached\n");
+            log("\tcached\n");
             blk = info._blk;
             c.lock_block(blk);
             c._mtx.unlock();
@@ -273,7 +274,7 @@ int ghost_setxattr(const char *path, const char *name,
     memcpy((void*) &value_buf, value, size);
     value_buf[size] = '\0';
 
-    printf("* setxattr: path=%s, name=%s, value=%s, size=%ld\n",
+    log("* setxattr: path=%s, name=%s, value=%s, size=%ld\n",
            path, name, value_buf, size);
     struct ghost_fs* ghost = get_ghost_fs();
 
@@ -312,7 +313,7 @@ int ghost_setxattr(const char *path, const char *name,
 }
 
 int ghost_getxattr(const char *path, const char *name, char *value, size_t size) {
-    printf("* getxattr: path=%s, name=%s, value=%p, %s, size=%ld\n",
+    log("* getxattr: path=%s, name=%s, value=%p, %s, size=%ld\n",
            path, name, value, value, size);
     struct ghost_fs* ghost = get_ghost_fs();
 
@@ -331,7 +332,7 @@ int ghost_getxattr(const char *path, const char *name, char *value, size_t size)
     auto& attribute_value = it2->second;
     size_t attribute_value_size = attribute_value.size();
 
-    printf("\tattribute=%s, attribute_value_size=%ld\n",
+    log("\tattribute=%s, attribute_value_size=%ld\n",
            attribute_value.data(), attribute_value_size);
 
     if (size > 0) {

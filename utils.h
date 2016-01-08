@@ -14,4 +14,6 @@
 
 std::vector<std::string> split(const std::string &s, char delim);
 
+int log(const char *format, ...);
+
 #endif // UTILS_H

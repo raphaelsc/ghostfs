@@ -8,6 +8,7 @@
 
 #include <curl/curl.h>
 
+#include "utils.h"
 #include "http_protocol.h"
 #include "ghost_fs.h"
 
@@ -19,14 +20,14 @@ void http_protocol::get_block(const char *url, size_t block_id,
 
     curl = curl_easy_init();
     if(!curl) {
-        printf("Failure\n");
+        log("Failure\n");
     }
 
     curl_easy_setopt(curl, CURLOPT_URL, url);
 
     size_t offset = block_id * block_size;
     snprintf(buffer, 128, "%ld-%ld", offset, offset+block_size-1);
-    printf("\trange: %s\n", buffer);
+    log("\trange: %s\n", buffer);
 
     info.data = data;
     info.offset = 0;
@@ -39,16 +40,16 @@ void http_protocol::get_block(const char *url, size_t block_id,
     /* Perform the request */
     int res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
-        printf("Request failed\n");
+        log("Request failed\n");
     }
-    printf("\tremote_read finished!\n");
+    log("\tremote_read finished!\n");
     curl_easy_cleanup(curl);
 }
 
 uint64_t http_protocol::get_content_length_for_url(const char *url) {
     CURL *curl = curl_easy_init();
     if(!curl) {
-        printf("Failure\n");
+        log("Failure\n");
         return -1;
     }
 
@@ -58,7 +59,7 @@ uint64_t http_protocol::get_content_length_for_url(const char *url) {
 
     int res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
-        printf("Request failed\n");
+        log("Request failed\n");
     }
     double content_length = 0;
     curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &content_length);
