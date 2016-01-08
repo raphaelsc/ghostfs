@@ -10,7 +10,6 @@
 
 #include <fuse.h>
 #include <thread>
-#include <sys/xattr.h>
 
 #include "ghost_fs.h"
 #include "utils.h"

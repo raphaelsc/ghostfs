@@ -12,6 +12,8 @@
 #include "ghost_file.h"
 #include "cache.h"
 
+#include <sys/xattr.h>
+
 #ifndef ENOATTR
 #define ENOATTR ENODATA /* Attribute not found */
 #endif
