@@ -27,7 +27,7 @@ size_t write_callback(void *content_read, size_t size, size_t nmemb, void *p) {
     return actual_size;
 }
 
-std::unordered_map<std::string, base_protocol*> handlers_;
+std::unordered_map<std::string, struct base_protocol*> handlers_;
 
 void register_handler(struct base_protocol *handler) {
     handlers_[handler->name()] = handler;
@@ -41,7 +41,7 @@ std::string get_protocol(const std::string& path) {
     return tokens[0];
 }
 
-base_protocol *get_handler(const char *path) {
+struct base_protocol *get_handler(const char *path) {
     auto it = handlers_.find(get_protocol(path));
 
     if (it == handlers_.end()) return 0;
