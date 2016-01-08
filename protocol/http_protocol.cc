@@ -12,8 +12,8 @@
 #include "http_protocol.h"
 #include "ghost_fs.h"
 
-void http_protocol::get_block(const char *url, size_t block_id,
-                                       size_t block_size, char* data) {
+void http_protocol::get_block(const char *url, size_t block_id, size_t block_size,
+        const std::unordered_map<std::string, std::string>& attributes, char* data) {
     char buffer[128];
     struct data_info info;
     CURL *curl;

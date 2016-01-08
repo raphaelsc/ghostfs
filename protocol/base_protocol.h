@@ -10,14 +10,15 @@
 #define BASE_PROTOCOL_H
 
 #include <stdint.h>
+#include <unordered_map>
 
 struct base_protocol {
     virtual const char* name() = 0;
 
     virtual bool is_url_valid(const char* url) = 0;
     virtual uint64_t get_content_length_for_url(const char *url) = 0;
-    virtual void get_block(const char *url, size_t block_id,
-                                             size_t block_size, char* data) = 0;
+    virtual void get_block(const char *url, size_t block_id, size_t block_size,
+        const std::unordered_map<std::string, std::string>& attributes, char* data) = 0;
 };
 
 size_t write_callback(void *content_read, size_t size, size_t nmemb, void *p);

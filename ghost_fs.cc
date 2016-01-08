@@ -142,13 +142,15 @@ static int ghost_create(const char *path, mode_t mode, struct fuse_file_info *fi
     return 0;
 }
 
-static void do_prefetch(cache& c, block_info& info, size_t blk_id, std::string file_url) {
+static void do_prefetch(cache& c, ghost_file& file, size_t blk_id, std::string file_url) {
+    std::vector<block_info>& file_blocks = file.get_file_blocks();
+    block_info& info = file_blocks[blk_id];
     base_protocol* handler = get_handler(file_url.data());
 
     if (!handler) return;
 
-    handler->get_block(file_url.data(), blk_id,
-                       c.block_size(), info._blk->_data);
+    handler->get_block(file_url.data(), blk_id, c.block_size(),
+        file.attributes(), info._blk->_data);
 
     c.unlock_block(info._blk);
 
@@ -156,7 +158,10 @@ static void do_prefetch(cache& c, block_info& info, size_t blk_id, std::string f
     log("Prefetched block %ld\n", blk_id);
 }
 
-static void try_prefetch(cache& c, block_info& info, size_t blk_id, const char* file_url) {
+static void try_prefetch(cache& c, ghost_file& file, size_t blk_id, const char* file_url) {
+    std::vector<block_info>& file_blocks = file.get_file_blocks();
+    block_info& info = file_blocks[blk_id];
+
     if (!info._mtx.try_lock()) {
         return;
     }
@@ -172,7 +177,7 @@ static void try_prefetch(cache& c, block_info& info, size_t blk_id, const char* 
     c._mtx.unlock();
     assert(info._blk == blk);
 
-    std::thread t(do_prefetch, std::ref(c), std::ref(info), blk_id, std::string(file_url));
+    std::thread t(do_prefetch, std::ref(c), std::ref(file), blk_id, std::string(file_url));
     t.detach();
 }
 
@@ -239,7 +244,7 @@ static int ghost_read(const char *path, char *buf, size_t size, off_t offset,
             log("\tnot cached\n");
             blk = c.allocate_block(&info);
             c._mtx.unlock();
-            handler->get_block(file_url, blk_id, block_size, blk->_data);
+            handler->get_block(file_url, blk_id, block_size, file.attributes(), blk->_data);
         } else {
             log("\tcached\n");
             blk = info._blk;
@@ -261,7 +266,7 @@ static int ghost_read(const char *path, char *buf, size_t size, off_t offset,
 
     // Try to prefetch subsequent block.
     if ((blk_id + 1) < file_blocks.size()) {
-        try_prefetch(c, file_blocks[blk_id+1], blk_id+1, file_url);
+        try_prefetch(c, file, blk_id+1, file_url);
     }
 
     return size;
@@ -303,9 +308,7 @@ int ghost_setxattr(const char *path, const char *name,
             handler->is_url_valid(value_buf)) {
         file.update_length(handler->get_content_length_for_url(value_buf),
                            ghost->get_block_size());
-        std::vector<block_info>& file_blocks = file.get_file_blocks();
-        cache& c = ghost->get_cache();
-        try_prefetch(c, file_blocks[0], 0, value_buf);
+        try_prefetch(ghost->get_cache(), file, 0, value_buf);
     }
 
     return 0;
