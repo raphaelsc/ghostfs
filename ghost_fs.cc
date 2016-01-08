@@ -391,6 +391,7 @@ void add_static_files() {
 void register_handlers() {
     register_handler(new http_protocol);
     register_handler(new https_protocol);
+    register_handler(new file_protocol);
 }
 
 int ghost_main(int argc, char *argv[]) {

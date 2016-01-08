@@ -24,4 +24,8 @@ struct https_protocol : public http_protocol {
     virtual const char* name() { return "https"; }
 };
 
+struct file_protocol : public http_protocol {
+    virtual const char* name() { return "file"; }
+};
+
 #endif // HTTP_PROTOCOL_H
