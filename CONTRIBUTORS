@@ -4,7 +4,7 @@ Descriptions of section entries:
     M: Mail
     W: Web-page with status/info
     G: Github profile
-    D: Generate this information using /usr/bin/date
+    T: Timestamp generated with /usr/bin/date
 
 NOTE: For the hard of thinking, this list is meant to remain in insertion
 order. If you could add yourselves to it in insertion order that would be
