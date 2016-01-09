@@ -20,4 +20,7 @@ which in turn will reconstruct the structure based on the information stored.
     Example of config file:
     { .name=/file, .url=example.com/file, .attributes = { {key, value} } }
     { .name=/dir/file2, .url=example.com/file2, .attributes = {} }
+- Add shrinker ability to cache. Cache will be shrunk if more than 80% of
+system memory is being used. Consider using mmap/munmap for better efficiency
+of a shrink. Allocation wouldn't go through LIBC.
 
