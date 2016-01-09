@@ -23,11 +23,21 @@ their existing tools on files stored in a GhostFS mount point.
 
 How to build it?
 
-Installing required packages for Fedora:
+Installing required packages for 
+    Fedora:
     yum install -y fuse fuse-devel libcurl libcurl-devel
+    
+    Debian:
+    apt-get install -y curl libcurl-dev fuse libfuse-dev libboost-all-dev
 
 Build the project with:
     cmake .; make;
+
+Install it with:
+    sudo make install
+    
+Create a deb or rpm package with:
+    sudo make package
 
 How to use it?
 
@@ -64,7 +74,7 @@ step 2 and 3 (of 'How to use it?') would be replaced by:
 Simpler, no?
 
 NOTE: By the way, a protocol plugin system was recently added to GhostFS (kudos
-to Pericles), so adding support to new protocols may be relatively easy.
+to Pericles (@gogo40)), so adding support to new protocols may be relatively easy.
 Take a look at /protocol for a better understanding of how it works.
 
 For further information, feel free to reach me at:
