@@ -1,5 +1,8 @@
 Ghost File System or simply GhostFS
 
+Say hi to our mascot, his name is Ghoster:
+    https://github.com/raphaelsc/ghostfs/blob/master/images/ghoster.jpg
+
 File system created to allow an user to randomly access content of a remote
 file as if the file were stored locally.
 
