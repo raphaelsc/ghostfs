@@ -29,9 +29,9 @@ set(
 
 #Define compilation flags
 
-set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} -fPIC --std=c++11 -Wall -pthread -D_FILE_OFFSET_BITS=64")
-set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG} -fno-inline -ggdb -DDEBUG --std=c++11 -Wall")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -O2 -DNDEBUG --std=c++11 -Wall")
+set(CMAKE_CXX_FLAGS         "${CMAKE_CXX_FLAGS} --std=c++11 -Wall -pthread -D_FILE_OFFSET_BITS=64")
+set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG} -fno-inline -ggdb -DDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -O2 -DNDEBUG")
 
 #Configure instalation settings
 
@@ -46,7 +46,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}
 )
 
-set(BUILD_SHARED_LIBS TRUE)
+set(BUILD_SHARED_LIBS FALSE)
 add_library(ghostfs_lib
     ghost_file.cc
     block_info.cc
