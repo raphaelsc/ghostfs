@@ -3,14 +3,20 @@ Ghost File System or simply GhostFS
 File system created to allow an user to randomly access content of a remote
 file as if the file were stored locally.
 
+What does make GhostFS different than other network-based file systems?
+To answer that, let me first introduce a new term:
+Ghost File: Think of it as a symbolic link that is linked to a remote file.
+GhostFS allows coexistence of ghost files that are linked to remote files from
+servers that use different protocols, e.g. HTTP, SCP, FTP. GhostFS was also
+designed to easily support new protocols, even those ones that has no notion of
+files, such as SQL. GhostFS can also be seen as a powerful tool to interact
+with cloud storage services, such as Google Drive.
+
 Only HTTP and HTTPS protocols are supported at the moment, but the goal is to
 add support to other protocols, such as FTP, SCP and even SQL.
 
 GhostFS takes advantange of Linux filesystem interface to allow users to use
 their existing tools on files stored in a GhostFS mount point.
-
-FUSE and CURL are used in this project, so you will need both packages
-installed when getting your hands dirty with this project.
 
 How to build it?
 
@@ -49,8 +55,8 @@ For example, let's do that with a remote video file:
 
 Now you can watch the video by opening ./my_ghost_fs/video.mp4
 
-NOTE: In the future, we may replace extended attribute with symbolic link,
-so step 2 and 3 (of 'How to use it?') would be replaced by:
+NOTE: In the future, we may replace extended attribute with symbolic link, so
+step 2 and 3 (of 'How to use it?') would be replaced by:
     ln -s /path/to/mount/point/<file> http://<address>
 Simpler, no?
 
