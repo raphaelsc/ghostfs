@@ -1,7 +1,19 @@
 Ghost File System or simply GhostFS
 
+Say hi to our mascot, his name is Ghoster:
+    https://github.com/raphaelsc/ghostfs/blob/master/images/ghoster.jpg
+
 File system created to allow an user to randomly access content of a remote
 file as if the file were stored locally.
+
+What does make GhostFS different than other network-based file systems?
+To answer that, let me first introduce a new term:
+Ghost File: Think of it as a symbolic link that is linked to a remote file.
+GhostFS allows coexistence of ghost files that are linked to remote files from
+different servers that use different protocols.
+GhostFS was also designed to easily support new protocols, even those ones that
+have no notion of files, such as SQL. GhostFS can also be seen as a powerful
+tool to interact with cloud storage services, such as Google Drive and Dropbox.
 
 Only HTTP and HTTPS protocols are supported at the moment, but the goal is to
 add support to other protocols, such as FTP, SCP and even SQL.
@@ -9,24 +21,27 @@ add support to other protocols, such as FTP, SCP and even SQL.
 GhostFS takes advantange of Linux filesystem interface to allow users to use
 their existing tools on files stored in a GhostFS mount point.
 
-FUSE and CURL are used in this project, so you will need both packages
-installed when getting your hands dirty with this project.
+How to build it?
+
+Installing required packages for Fedora:
+    yum install -y fuse fuse-devel libcurl libcurl-devel
+
+Build the project with:
+    cmake .; make;
 
 How to use it?
 
-1) Build the project:
-    cmake .; make
-2) Mount the file system:
+1) Mount the file system:
     ./ghostfs /path/to/mount/point
-3) Create an empty file:
+2) Create an empty file:
     touch /path/to/mount/point/<file>
-4) Set attribute url of the empty file using extended attribute:
+3) Set attribute url of the empty file using extended attribute:
     setfattr -n url -v http://<address> /path/to/mount/point/<file>
 
 For debugging, GhostFS may be mounted as follow:
     ./ghostfs -d /path/to/mount/point
 
-Steps 2, 3 and 4 can be done in a single step with:
+Steps 1, 2 and 3 can be done in a single step with:
     ./gmount /path/to/mount/point http://<address> <file>
 
 And that's all. Now you can randomly access content of the remote file.
@@ -43,14 +58,13 @@ For example, let's do that with a remote video file:
 
 Now you can watch the video by opening ./my_ghost_fs/video.mp4
 
-NOTE: In the future, we may replace extended attribute with symbolic link,
-so step 3 and 4 (of 'How to use it?') would be replaced by:
+NOTE: In the future, we may replace extended attribute with symbolic link, so
+step 2 and 3 (of 'How to use it?') would be replaced by:
     ln -s /path/to/mount/point/<file> http://<address>
 Simpler, no?
 
-NOTE: We also plan to add support to other protocols, such as FTP and SCP.
-By the way, a protocol plugin system was recently added to GhostFS (kudos to
-Pericles), so adding support to new protocols may be relatively easy.
+NOTE: By the way, a protocol plugin system was recently added to GhostFS (kudos
+to Pericles), so adding support to new protocols may be relatively easy.
 Take a look at /protocol for a better understanding of how it works.
 
 For further information, feel free to reach me at:

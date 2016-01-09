@@ -1,0 +1,23 @@
+Descriptions of section entries:
+
+    FULL NAME (uppercase)
+    M: Mail
+    W: Web-page with status/info
+    G: Github profile
+    T: Timestamp generated with /usr/bin/date
+
+NOTE: For the hard of thinking, this list is meant to remain in insertion
+order. If you could add yourselves to it in insertion order that would be
+so much easier.
+
+RAPHAEL S. CARVALHO
+M: raphael.scarv@gmail.com
+W: http://raphaelsc.github.io/
+G: https://github.com/raphaelsc/
+T: Sat Jan  9 02:58:52 BRST 2016
+
+PÉRICLES L. MACHADO
+M: eu@gogo40.com
+W: http://gogo40.com
+G: https://github.com/gogo40
+T: Sat Jan  9 19:49:10 BRST 2016
