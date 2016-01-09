@@ -9,11 +9,11 @@ file as if the file were stored locally.
 What does make GhostFS different than other network-based file systems?
 To answer that, let me first introduce a new term:
 Ghost File: Think of it as a symbolic link that is linked to a remote file.
-GhostFS allows coexistence of ghost files that are linked to remote files from
-servers that use different protocols, e.g. HTTP, SCP, FTP. GhostFS was also
-designed to easily support new protocols, even those ones that has no notion of
-files, such as SQL. GhostFS can also be seen as a powerful tool to interact
-with cloud storage services, such as Google Drive.
+GhostFS allows coexistence of ghost files, i.e. files that are linked to remote
+files, from different servers that use different protocols.
+GhostFS was also designed to easily support new protocols, even those ones that
+have no notion of files, such as SQL. GhostFS can also be seen as a powerful
+tool to interact with cloud storage services, such as Google Drive and Dropbox.
 
 Only HTTP and HTTPS protocols are supported at the moment, but the goal is to
 add support to other protocols, such as FTP, SCP and even SQL.
@@ -24,7 +24,7 @@ their existing tools on files stored in a GhostFS mount point.
 How to build it?
 
 Installing required packages for Fedora:
-yum install -y fuse fuse-devel libcurl libcurl-devel
+    yum install -y fuse fuse-devel libcurl libcurl-devel
 
 Build the project with:
     cmake .; make;
