@@ -117,7 +117,7 @@ if (ALLOW_BUILD_PACKAGE)
     if (PACKAGE_TYPE STREQUAL "DEB")
         set(CPACK_GENERATOR "DEB")
         set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON) # autogenerate dependency information (package d-shlibs should be installed)
-        set(CPACK_DEBIAN_PACKAGE_DEPENDS "fuse (>= 2.6), attr (>= 2.0.0)")
+        set(CPACK_DEBIAN_PACKAGE_DEPENDS "fuse (>= 2.6), attr (>= 2.0.0), curl (>= 7.0.0)")
     endif (PACKAGE_TYPE STREQUAL "DEB")
 
     # RPM SPECIFIC
