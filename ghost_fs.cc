@@ -10,11 +10,13 @@
 
 #include <fuse.h>
 #include <thread>
+#include <boost/filesystem.hpp>
 
 #include "ghost_fs.h"
 #include "utils.h"
 
 #include "protocol/http_protocol.h"
+#include "protocol/load_drivers.h"
 
 ghost_fs *get_ghost_fs() {
     struct fuse_context* context = fuse_get_context();
@@ -399,11 +401,15 @@ void register_handlers() {
     register_handler(new file_protocol);
 }
 
+namespace fs = boost::filesystem;
+
 int ghost_main(int argc, char *argv[]) {
+    fs::path current_path = fs::system_complete(fs::path(argv[0])).parent_path();
 
     set_ghost_oper();
     add_static_files();
     register_handlers();
+    load_drivers(current_path);
 
     return fuse_main(argc, argv, &ghost_oper, (void*) &ghost);
 }

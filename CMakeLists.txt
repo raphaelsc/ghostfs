@@ -20,11 +20,15 @@ endif(CCACHE_FOUND)
 
 find_package(fuse REQUIRED)
 find_package(CURL REQUIRED)
+find_package(Boost REQUIRED)
+find_package(Boost COMPONENTS system filesystem  REQUIRED)
 
 set(
     GHOST_LIBRARIES
     ${FUSE_LIBRARIES}
     ${CURL_LIBRARIES}
+    ${Boost_FILESYSTEM_LIBRARY}
+    ${Boost_SYSTEM_LIBRARY}
 )
 
 #Define compilation flags
@@ -56,6 +60,7 @@ add_library(ghostfs_lib
 
     protocol/base_protocol.cc
     protocol/http_protocol.cc
+    protocol/load_drivers.cc
 
     ghost_file.h
     block_info.h
@@ -65,6 +70,7 @@ add_library(ghostfs_lib
 
     protocol/base_protocol.h
     protocol/http_protocol.h
+    protocol/load_drivers.h
 )
 
 add_executable(ghostfs
@@ -75,6 +81,7 @@ target_link_libraries(
     ghostfs
     ${GHOST_LIBRARIES}
     ghostfs_lib
+    dl
 )
 
 install(
