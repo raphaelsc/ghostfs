@@ -1,3 +1,6 @@
+GhostFS
+-------
+
 - Rename gmount to ghostfs_mount and add ghostfs_create. So ghostfs_mount will
 only be responsible for mounting, and ghostfs_create only for creating files
 with a given url and additional parameters such as attributes.
@@ -5,14 +8,6 @@ with a given url and additional parameters such as attributes.
 being used to set url.
 - Add support to ftp protocol.
 - Add support to scp protocol.
-- Add support to sqlite protocol.
-    - sqlite protocol will be about querying a sqlite database, and the return
-    value will be available by reading the file.
-    - attribute query will be used to store the query
-    - we may need additional attributes such as password to access database
-    content.
-    - when file size is needed, we will have to perform the query, cache it
-    and then return the size of the query result as the file size.
 - Add support to directories.
 - GhostFS isn't persistent, so let's add a config file that will contain
 the file system structure. This config file will be passed to ghostfs_mount
@@ -24,3 +19,41 @@ which in turn will reconstruct the structure based on the information stored.
 system memory is being used. Consider using mmap/munmap for better efficiency
 of a shrink. Allocation wouldn't go through LIBC.
 
+
+GhostFS plugins
+----------------
+
+- Add support to extern drivers written in other languages:
+
+[X] Python
+[ ] Perl
+[ ] Java
+[ ] Lua
+[ ] Ruby
+
+- Add support to sqlite protocol.
+    - sqlite protocol will be about querying a sqlite database, and the return
+    value will be available by reading the file.
+    - attribute query will be used to store the query
+    - we may need additional attributes such as password to access database
+    content.
+    - when file size is needed, we will have to perform the query, cache it
+    and then return the size of the query result as the file size.
+
+- Add support to other sql protocols:
+
+[ ] MySQL
+[ ] PostgreSQL
+[ ] Cassandra
+[ ] Redis
+[ ] ScyllaDB
+[ ] mongoDB
+[ ] Parse
+[ ] FirebirdSQL
+[ ] Oracle
+
+- Add support to other protocols:
+
+[ ] Dropbox
+[ ] Google Drive
+[ ] Google BigQuery
