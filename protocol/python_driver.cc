@@ -294,18 +294,10 @@ python_protocol_placeholder* get_python_plugin(const char* module,
 void register_python_drivers(const boost::filesystem::path& script) {
     python::ensure_gil_state ensure_gil;
 
-    log("Python script : %s\n", script.string().c_str());
-
     std::string module = script.stem().string();
-
-    log("Python module : <%s>\n", module.c_str());
-
     plugin_names_list plugins_list = get_plugins(module.c_str());
 
-    log("Python drivers :\n");
-
     for (auto plugin : plugins_list) {
-        log("\t -- %s\n", plugin.c_str());
         python_protocol_placeholder* handler =
                 get_python_plugin(module.c_str(), plugin.c_str());
 
