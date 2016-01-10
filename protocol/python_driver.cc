@@ -310,18 +310,7 @@ void register_python_drivers(const boost::filesystem::path& script) {
                 get_python_plugin(module.c_str(), plugin.c_str());
 
         if (handler) {
-            log("\tprotocol name: %s\n", handler->name());
-            log("\tis_valid_url: %d\n", handler->is_url_valid("teste_python_plugin.url"));
-
-            char* data = new char[200];
-            handler->get_block("test_url2.url", 10, 100, {{"a", "b"}, {"c", "d"}}, data);
-            log("\tget_block: %s\n", data);
-            delete data;
-
-            log("\tget_content_length_for_url: %d\n", handler->get_content_length_for_url("test_url3.url"));
-
             register_handler(handler);
-
         } else {
             PyErr_Print();
             PyErr_Clear();
