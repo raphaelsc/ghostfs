@@ -22,11 +22,13 @@ find_package(fuse REQUIRED)
 find_package(CURL REQUIRED)
 find_package(Boost REQUIRED)
 find_package(Boost COMPONENTS system filesystem  REQUIRED)
+find_package(PythonLibs 2.7 REQUIRED)
 
 set(
     GHOST_LIBRARIES
     ${FUSE_LIBRARIES}
     ${CURL_LIBRARIES}
+    ${PYTHON_LIBRARIES}
     ${Boost_FILESYSTEM_LIBRARY}
     ${Boost_SYSTEM_LIBRARY}
 )
@@ -47,6 +49,7 @@ set(INSTALL_LIB_DIR /usr/lib)
 include_directories(
     ${FUSE_INCLUDE_DIRS}
     ${CURL_INCLUDE_DIRS}
+    ${PYTHON_INCLUDE_DIR}
     ${CMAKE_SOURCE_DIR}
 )
 
@@ -61,6 +64,7 @@ add_library(ghostfs_lib
     protocol/base_protocol.cc
     protocol/http_protocol.cc
     protocol/load_drivers.cc
+    protocol/python_driver.cc
 
     ghost_file.h
     block_info.h
@@ -71,6 +75,7 @@ add_library(ghostfs_lib
     protocol/base_protocol.h
     protocol/http_protocol.h
     protocol/load_drivers.h
+    protocol/python_driver.h
 )
 
 add_executable(ghostfs

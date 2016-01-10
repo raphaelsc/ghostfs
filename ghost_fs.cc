@@ -17,6 +17,7 @@
 
 #include "protocol/http_protocol.h"
 #include "protocol/load_drivers.h"
+#include "protocol/python_driver.h"
 
 ghost_fs *get_ghost_fs() {
     struct fuse_context* context = fuse_get_context();
@@ -409,7 +410,12 @@ int ghost_main(int argc, char *argv[]) {
     set_ghost_oper();
     add_static_files();
     register_handlers();
+
+    //load extern drivers
     load_drivers(current_path);
+
+    python::initialize initialize;
+    load_python_drivers(current_path);
 
     return fuse_main(argc, argv, &ghost_oper, (void*) &ghost);
 }

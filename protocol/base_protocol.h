@@ -13,6 +13,8 @@
 #include <unordered_map>
 
 struct base_protocol {
+    virtual ~base_protocol(){}
+
     virtual const char* name() = 0;
 
     virtual bool is_url_valid(const char* url) = 0;
