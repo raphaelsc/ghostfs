@@ -1,6 +1,6 @@
 /*
   Ghost File System, or simply GhostFS
-  Copyright (C) 2016 Raphael S. Carvalho
+  Copyright (C) 2016 Péricles Lopes Machado
 
   This program can be distributed under the terms of the GNU GPL.
   See the file COPYING.
@@ -13,6 +13,8 @@
 #include <unordered_map>
 
 struct base_protocol {
+    virtual ~base_protocol(){}
+
     virtual const char* name() = 0;
 
     virtual bool is_url_valid(const char* url) = 0;
