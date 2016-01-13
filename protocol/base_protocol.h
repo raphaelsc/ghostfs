@@ -19,7 +19,9 @@ struct base_protocol {
 
     virtual bool is_url_valid(const char* url) = 0;
     virtual uint64_t get_content_length_for_url(const char *url) = 0;
-    virtual void get_block(const char *url, size_t block_id, size_t block_size,
+    // Return number of bytes stored in data, which cannot be greater than block_size.
+    // Otherwise there would be an overflow on data.
+    virtual size_t get_block(const char *url, size_t block_id, size_t block_size,
         const std::unordered_map<std::string, std::string>& attributes, char* data) = 0;
 };
 

@@ -30,7 +30,7 @@ struct python_protocol_placeholder : public base_protocol {
 
     virtual bool is_url_valid(const char* url);
     virtual uint64_t get_content_length_for_url(const char *url);
-    virtual void get_block(const char *url, size_t block_id, size_t block_size,
+    virtual size_t get_block(const char *url, size_t block_id, size_t block_size,
                            const std::unordered_map<std::string, std::string>& attributes, char* data);
 private:
     python_protocol_placeholder_impl* _impl = 0;

@@ -17,6 +17,7 @@ size_t write_callback(void *content_read, size_t size, size_t nmemb, void *p) {
     struct data_info* info = (struct data_info*) p;
     log("\twrite_callback: actual_size: %ld\n", actual_size);
 
+    // Handle possible overflow.
     if (info->offset + actual_size > info->size) {
         log("\twrite_callback: write would go beyond the end of the buffer\n");
         return 0;

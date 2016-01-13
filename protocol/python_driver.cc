@@ -28,7 +28,7 @@ struct python_protocol_placeholder_impl {
 
     bool is_url_valid(const char* url);
     uint64_t get_content_length_for_url(const char *url);
-    void get_block(const char *url, size_t block_id, size_t block_size,
+    size_t get_block(const char *url, size_t block_id, size_t block_size,
                    const std::unordered_map<std::string, std::string>& attributes, char* data);
 private:
     PyObject* _instance = 0;
@@ -167,7 +167,7 @@ PyObject* convert_to_pyhashmap(const std::unordered_map<std::string, std::string
     return dict;
 }
 
-void python_protocol_placeholder_impl::get_block(const char *url,
+size_t python_protocol_placeholder_impl::get_block(const char *url,
                                                  size_t block_id,
                                                  size_t block_size,
                                                  const std::unordered_map<std::string, std::string> &attributes,
@@ -185,7 +185,7 @@ void python_protocol_placeholder_impl::get_block(const char *url,
     if (result == NULL) {
         PyErr_Print();
         PyErr_Clear();
-        return;
+        return 0;
     }
 
     size_t size = PyString_Size(result);
@@ -197,6 +197,7 @@ void python_protocol_placeholder_impl::get_block(const char *url,
 
     Py_XDECREF(m);
     Py_XDECREF(result);
+    return size;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -221,12 +222,12 @@ uint64_t python_protocol_placeholder::get_content_length_for_url(const char *url
     return _impl->get_content_length_for_url(url);
 }
 
-void python_protocol_placeholder::get_block(const char *url,
+size_t python_protocol_placeholder::get_block(const char *url,
                                             size_t block_id,
                                             size_t block_size,
                                             const std::unordered_map<std::string, std::string> &attributes,
                                             char *data) {
-    _impl->get_block(url,
+    return _impl->get_block(url,
                      block_id,
                      block_size,
                      attributes,

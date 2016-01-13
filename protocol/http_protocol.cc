@@ -12,7 +12,7 @@
 #include "http_protocol.h"
 #include "ghost_fs.h"
 
-void http_protocol::get_block(const char *url, size_t block_id, size_t block_size,
+size_t http_protocol::get_block(const char *url, size_t block_id, size_t block_size,
         const std::unordered_map<std::string, std::string>& attributes, char* data) {
     char buffer[128];
     struct data_info info;
@@ -21,6 +21,7 @@ void http_protocol::get_block(const char *url, size_t block_id, size_t block_siz
     curl = curl_easy_init();
     if(!curl) {
         log("Curl initialization failed when about to get block %ld from %s\n", block_id, url);
+        return 0;
     }
 
     curl_easy_setopt(curl, CURLOPT_URL, url);
@@ -41,16 +42,18 @@ void http_protocol::get_block(const char *url, size_t block_id, size_t block_siz
     CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
         log("Request to %s failed, reason: %s\n", url, curl_easy_strerror(res));
+        return 0;
     }
     log("\tget_block finished for block %ld of %s!\n", block_id, url);
     curl_easy_cleanup(curl);
+    return info.offset;
 }
 
 uint64_t http_protocol::get_content_length_for_url(const char *url) {
     CURL *curl = curl_easy_init();
     if(!curl) {
         log("Curl initialization failed when about to get length of %s\n", url);
-        return -1;
+        return 0;
     }
 
     curl_easy_setopt(curl, CURLOPT_URL, url);
@@ -60,6 +63,7 @@ uint64_t http_protocol::get_content_length_for_url(const char *url) {
     CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
         log("Request to %s failed, reason: %s\n", url, curl_easy_strerror(res));
+        return 0;
     }
     double content_length = 0;
     curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &content_length);
