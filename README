@@ -25,10 +25,10 @@ How to build it?
 
 Installing required packages for 
     Fedora:
-    yum install -y fuse fuse-devel libcurl libcurl-devel
+    yum install -y fuse fuse-devel libcurl libcurl-devel python-devel
     
     Debian:
-    apt-get install -y curl libcurl-dev fuse libfuse-dev libboost-all-dev
+    apt-get install -y curl libcurl-dev fuse libfuse-dev libboost-all-dev libpython-dev
 
 Build the project with:
     cmake .; make;
