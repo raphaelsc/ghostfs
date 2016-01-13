@@ -254,6 +254,10 @@ static int ghost_read(const char *path, char *buf, size_t size, off_t offset,
             // If get_block() was unable to get the amount of bytes asked, then we should return EIO.
             if (bytes_read < to_read) {
                 log("get_block failed for block %ld, expected=%ld, actual=%ld\n", blk_id, to_read, bytes_read);
+                // TODO: we're still leaking the block previously allocated, so let's provide a function
+                // in cache to deallocate a block. This function will have to reset block info because
+                // block content is invalid if get_block() failed.
+                info._mtx.unlock();
                 return -EIO;
             }
             // If bytes read is greater than block size, then there is an overflow in blk->_data
