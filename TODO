@@ -40,7 +40,7 @@ GhostFS plugins
     - when file size is needed, we will have to perform the query, cache it
     and then return the size of the query result as the file size.
 
-- Add support to other sql protocols:
+- Add support to other database protocols:
 
 [ ] MySQL
 [ ] PostgreSQL
