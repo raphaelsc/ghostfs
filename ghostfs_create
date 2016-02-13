@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Old Author: Péricles Lopes Machado (eu[at]gogo40.com)
+
+# Author: Ricardo Biehl Pasquali <rbpoficial@gmail.com>
+
+script_name="ghostfs_create"
+
+function print_usage() {
+	echo "Usage: $script_name <URL> <path (in ghost mountpoint)>"
+	exit 1
+}
+
+url="$1"
+path="$2"
+
+if [ -z "$url" ]; then
+	print_usage
+fi
+
+if [ -z "$path" ]; then
+	echo "Missing path!"
+	print_usage
+fi
+
+if [ -e "$path" ]; then
+	echo "$path already exists!"
+	exit 1
+fi
+
+mountpoint `dirname $path`
+
+if [ $? = 1 ]; then
+	exit 1
+fi
+
+touch $path
+
+setfattr -n url -v "$url" "$path"
+
