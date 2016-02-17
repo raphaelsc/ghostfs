@@ -3,7 +3,7 @@ GhostFS
 
 - Rename gmount to ghostfs_mount and add ghostfs_create. So ghostfs_mount will
 only be responsible for mounting, and ghostfs_create only for creating files
-with a given url and additional parameters such as attributes.
+with a given url and additional parameters such as attributes. [DONE]
 - Use symlink for file creation instead of using touch + setfattr, the latter
 being used to set url.
 - Add support to ftp protocol.
